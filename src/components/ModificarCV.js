@@ -7,6 +7,8 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 
 const initialState = {
   nombre: "",
@@ -71,6 +73,8 @@ function ModificarCV() {
     );
     if (response.status === 200) {
       console.log(response.data);
+      toast.success("Curriculum modificado exitosamente.");
+
     }
   };
   return (
@@ -292,6 +296,8 @@ function ModificarCV() {
 
                                </Row> */}
         </Form>
+        <ToastContainer />
+
       </Container>
     </>
   );

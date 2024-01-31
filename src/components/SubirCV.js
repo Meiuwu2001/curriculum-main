@@ -6,6 +6,8 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useState } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialState = {
   nombre: "",
@@ -41,6 +43,10 @@ function SubirCV() {
     objetivo,
   } = datos;
 
+  const resetForm = () => {
+    setDatos(initialState);
+  };
+
   const handleInputChange = (e) => {
     let { name, value } = e.target;
     setDatos({ ...datos, [name]: value });
@@ -52,9 +58,27 @@ function SubirCV() {
   };
 
   const addDatos = async (data) => {
-    const response = await axios.post("http://localhost:5000/curriculum", data);
-    if (response.status === 200) {
-      console.log(response.data);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/curriculum",
+        data
+      );
+
+      if (response.status === 200) {
+        console.log(response.data);
+        toast.success("Curriculum guardado exitosamente.");
+        resetForm(); // Restablecer el formulario después de guardar exitosamente.
+      } else {
+        console.error("Error al guardar el curriculum");
+        toast.error(
+          "Error al guardar el curriculum. Por favor, inténtalo de nuevo."
+        );
+      }
+    } catch (error) {
+      console.error("Error inesperado al guardar el curriculum", error);
+      toast.error(
+        "Error inesperado al guardar el curriculum. Por favor, inténtalo de nuevo."
+      );
     }
   };
 
@@ -276,6 +300,7 @@ function SubirCV() {
 
                                </Row> */}
         </Form>
+        <ToastContainer />
       </Container>
     </>
   );
