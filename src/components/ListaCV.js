@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Grid, h } from "gridjs";
 import "gridjs/dist/theme/mermaid.css";
 import { Modal, Button, Alert } from "react-bootstrap";
@@ -41,11 +41,11 @@ function ListaCV() {
       columns: [
         "ID",
         "Nombre",
-        "Apellido Paterno",
-        "Apellido Materno",
-        "Telefono",
-        "Idiomas",
-        "Preparacion Academica",
+        "Apellidos",
+        "Profesión",
+        "Dirección",
+        "Teléfono",
+        "Email",
         {
           name: "Modificar",
           formatter: (cell, row) => {
@@ -111,11 +111,11 @@ function ListaCV() {
           data.map((curriculum) => [
             curriculum.id,
             curriculum.nombre,
-            curriculum.apellido_paterno,
-            curriculum.apellido_materno,
+            curriculum.apellidos,
+            curriculum.profesion,
+            curriculum.direccion,
             curriculum.telefono,
-            curriculum.idiomas,
-            curriculum.preparacion_academica,
+            curriculum.email,
           ]),
       },
     });

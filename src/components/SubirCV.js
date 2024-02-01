@@ -8,6 +8,8 @@ import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Accordion from "react-bootstrap/Accordion";
+import "../si.css";
 
 const initialState = {
   nombre: "",
@@ -101,373 +103,401 @@ function SubirCV() {
   };
 
   return (
-    <>
+    <div className="si">
       <Container>
-        <Row>
-          <Col>
-            <h1>Curriculum Vitae</h1>
-          </Col>
-        </Row>
-
-        <Form onSubmit={handleSubmit}>
+        <Accordion defaultActiveKey="0">
           <Row>
             <Col>
-              <p className="fs-3">Datos Generales</p>
+              <h1 className="title">Crea tu Curriculum Vitae</h1>
+              <text className="texto">Ingresa tus datos</text>
             </Col>
           </Row>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Nombre(s)">
-                <Form.Control
-                  name="nombre"
-                  type="text"
-                  placeholder="Ingresa nombre"
-                  value={nombre}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+          <Form onSubmit={handleSubmit}>
+            <Accordion.Item eventKey="0" className="accordion">
+              <Accordion.Header>Datos Generales</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col>
+                    <p className="fs-3">Datos Generales</p>
+                  </Col>
+                </Row>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Apellidos">
-                <Form.Control
-                  name="apellidos"
-                  type="text"
-                  placeholder="Ingresa Apellidos"
-                  value={apellidos}
-                  onChange={handleInputChange}
-                />
-              </FloatingLabel>
-            </Col>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Nombre(s)">
+                      <Form.Control
+                        name="nombre"
+                        type="text"
+                        placeholder="Ingresa nombre"
+                        value={nombre}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Profesión">
-                <Form.Control
-                  name="Profesion"
-                  type="text"
-                  placeholder="Ingresa Profesión"
-                  value={profesion}
-                  onChange={handleInputChange}
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Apellidos">
+                      <Form.Control
+                        name="apellidos"
+                        type="text"
+                        placeholder="Ingresa Apellidos"
+                        value={apellidos}
+                        onChange={handleInputChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Dirección">
-                <Form.Control
-                  name="direccion"
-                  type="text"
-                  placeholder="Ingresa Dirección"
-                  value={direccion}
-                  onChange={handleInputChange}
-                />
-              </FloatingLabel>
-            </Col>
+                  <Col>
+                    <FloatingLabel label="Profesión">
+                      <Form.Control
+                        name="Profesion"
+                        type="text"
+                        placeholder="Ingresa Profesión"
+                        value={profesion}
+                        onChange={handleInputChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Teléfono">
-                {" "}
-                <Form.Control
-                  name="telefono"
-                  type="text"
-                  placeholder="Ingresa Telefono (618)1232323"
-                  value={telefono}
-                  onChange={handleInputChange}
-                  pattern="[(][0-9]{3}[)][0-9]{7}"
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Dirección">
+                      <Form.Control
+                        name="direccion"
+                        type="text"
+                        placeholder="Ingresa Dirección"
+                        value={direccion}
+                        onChange={handleInputChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Correo Electrónico">
-                <Form.Control
-                  name="correo_electronico"
-                  type="email"
-                  placeholder="Ingresa Correo Electrónico"
-                  value={email}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+                  <Col>
+                    <FloatingLabel label="Teléfono">
+                      {" "}
+                      <Form.Control
+                        name="telefono"
+                        type="text"
+                        placeholder="Ingresa Telefono (618)1232323"
+                        value={telefono}
+                        onChange={handleInputChange}
+                        pattern="[(][0-9]{3}[)][0-9]{7}"
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Fecha de Nacimiento">
-                <Form.Control
-                  name="fecha_nacimiento"
-                  type="date"
-                  placeholder="Ingresa Fecha de Nacimiento"
-                  value={fecha_nacimiento}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Correo Electrónico">
+                      <Form.Control
+                        name="correo_electronico"
+                        type="email"
+                        placeholder="Ingresa Correo Electrónico"
+                        value={email}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row>
-            <Col>
-              <p className="fs-3">Experiencia Profesional</p>
-            </Col>
-          </Row>
+                  <Col>
+                    <FloatingLabel label="Fecha de Nacimiento">
+                      <Form.Control
+                        name="fecha_nacimiento"
+                        type="date"
+                        placeholder="Ingresa Fecha de Nacimiento"
+                        value={fecha_nacimiento}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Título/Puesto">
-                <Form.Control
-                  name="puesto"
-                  type="text"
-                  placeholder="Ingresa Título/Puesto"
-                  value={puesto}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+            <Accordion.Item eventKey="4">
+              <Accordion.Header>Experiencia Profesional</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col>
+                    <p className="fs-3">Experiencia Profesional</p>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Empresa">
-                <Form.Control
-                  name="empresa"
-                  type="text"
-                  placeholder="Ingresa Empresa"
-                  value={empresa}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Título/Puesto">
+                      <Form.Control
+                        name="puesto"
+                        type="text"
+                        placeholder="Ingresa Título/Puesto"
+                        value={puesto}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Ubicación">
-                <Form.Control
-                  name="ubicacion_empresa"
-                  type="text"
-                  placeholder="Ingresa Ubicación"
-                  value={ubicacion_empresa}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                  <Col>
+                    <FloatingLabel label="Empresa">
+                      <Form.Control
+                        name="empresa"
+                        type="text"
+                        placeholder="Ingresa Empresa"
+                        value={empresa}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Fecha de Inicio">
-                <Form.Control
-                  name="inicio_empresa"
-                  type="date"
-                  placeholder="Ingresa Fecha de Inicio"
-                  value={inicio_empresa}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Ubicación">
+                      <Form.Control
+                        name="ubicacion_empresa"
+                        type="text"
+                        placeholder="Ingresa Ubicación"
+                        value={ubicacion_empresa}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Fecha de Finalización">
-                <Form.Control
-                  name="fin_empresa"
-                  type="date"
-                  placeholder="Ingresa Fecha de Finalización"
-                  value={fin_empresa}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Fecha de Inicio">
+                      <Form.Control
+                        name="inicio_empresa"
+                        type="date"
+                        placeholder="Ingresa Fecha de Inicio"
+                        value={inicio_empresa}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Funciones y Logros">
-                <Form.Control
-                  name="funciones"
-                  type="text"
-                  placeholder="Ingresa Funciones y Logros"
-                  value={funciones}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                  <Col>
+                    <FloatingLabel label="Fecha de Finalización">
+                      <Form.Control
+                        name="fin_empresa"
+                        type="date"
+                        placeholder="Ingresa Fecha de Finalización"
+                        value={fin_empresa}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-          <Row>
-            <Col>
-              <p className="fs-3">Datos Académicos</p>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Funciones/Logros">
+                      <Form.Control
+                        name="funciones"
+                        type="text"
+                        placeholder="Ingresa Funciones/Logros"
+                        value={funciones}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Grado(s) Adadémicos">
-                <Form.Control
-                  name="grado_academico"
-                  type="text"
-                  placeholder="Ingresa Grado(s) Adadémicos"
-                  value={grado_academico}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Información Académica</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col>
+                    <p className="fs-3">Información Académica</p>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Centro de Estudios/Institución">
-                <Form.Control
-                  name="institucion"
-                  type="text"
-                  placeholder="Ingresa Centro de Estudios/Institución"
-                  value={institucion}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Grado(s) Adadémicos">
+                      <Form.Control
+                        name="grado_academico"
+                        type="text"
+                        placeholder="Ingresa Grado(s) Adadémicos"
+                        value={grado_academico}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Ubicación">
-                <Form.Control
-                  name="ubicacion_institucion"
-                  type="text"
-                  placeholder="Ingresa Ubicación"
-                  value={ubicacion_institucion}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                  <Col>
+                    <FloatingLabel label="Centro de Estudios/Institución">
+                      <Form.Control
+                        name="institucion"
+                        type="text"
+                        placeholder="Ingresa Centro de Estudios/Institución"
+                        value={institucion}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Fecha de Inicio">
-                <Form.Control
-                  name="inicio_institucion"
-                  type="date"
-                  placeholder="Ingresa Fecha de Inicio"
-                  value={inicio_institucion}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Ubicación">
+                      <Form.Control
+                        name="ubicacion_institucion"
+                        type="text"
+                        placeholder="Ingresa Ubicación"
+                        value={ubicacion_institucion}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Año de Graduación">
-                <Form.Control
-                  name="graduacion"
-                  type="date"
-                  placeholder="Ingresa Año de Graduación"
-                  value={graduacion}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Fecha de Inicio">
+                      <Form.Control
+                        name="inicio_institucion"
+                        type="date"
+                        placeholder="Ingresa Fecha de Inicio"
+                        value={inicio_institucion}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row>
-            <Col>
-              <p className="fs-3">Habilidades</p>
-            </Col>
-          </Row>
+                  <Col>
+                    <FloatingLabel label="Año de Graduación">
+                      <Form.Control
+                        name="graduacion"
+                        type="date"
+                        placeholder="Ingresa Año de Graduación"
+                        value={graduacion}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Habilidades">
-                <Form.Control
-                  name="habilidades"
-                  type="text"
-                  placeholder="Ingresa Habilidades"
-                  value={habilidades}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+            <Accordion.Item eventKey="2">
+              <Accordion.Header>Habilidades</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col>
+                    <p className="fs-3">Habilidades</p>
+                  </Col>
+                </Row>
 
-          <Row>
-            <Col>
-              <p className="fs-3">Idiomas</p>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Habilidades">
+                      <Form.Control
+                        name="habilidades"
+                        type="text"
+                        placeholder="Ingresa Habilidades"
+                        value={habilidades}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Idiomas">
-                <Form.Control
-                  name="idiomas"
-                  type="text"
-                  placeholder="Ingresa Idiomas"
-                  value={idiomas}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+            <Accordion.Item eventKey="3">
+              <Accordion.Header>Idiomas</Accordion.Header>
+              <Accordion.Body>
+                <Row>
+                  <Col>
+                    <p className="fs-3">Idiomas</p>
+                  </Col>
+                </Row>
 
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Nivel de Habilidad">
-                <Form.Control
-                  name="nivel"
-                  type="text"
-                  placeholder="Ingresa Nivel de Habilidad"
-                  value={nivel}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Idiomas">
+                      <Form.Control
+                        name="idiomas"
+                        type="text"
+                        placeholder="Ingresa Idiomas"
+                        value={idiomas}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
 
-            <Col>
-              <FloatingLabel label="Curso o Certificación">
-                <Form.Control
-                  name="certificacion"
-                  type="text"
-                  placeholder="Ingresa Curso o Certificación"
-                  value={certificacion}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
+                <Row className="mt-3 mb-3">
+                  <Col>
+                    <FloatingLabel label="Nivel de Habilidad">
+                      <Form.Control
+                        name="nivel"
+                        type="text"
+                        placeholder="Ingresa Nivel de Habilidad"
+                        value={nivel}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
 
-          <Row>
-            <Col>
-              <Button type="submit" className="btn btn-primary">
-                Guardar
-              </Button>
-            </Col>
+                  <Col>
+                    <FloatingLabel label="Curso o Certificación">
+                      <Form.Control
+                        name="certificacion"
+                        type="text"
+                        placeholder="Ingresa Curso o Certificación"
+                        value={certificacion}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+              </Accordion.Body>
+            </Accordion.Item>
 
-            <Col>
-              <Button className="btn btn-danger">Cancelar</Button>
-            </Col>
-          </Row>
-        </Form>
-        <ToastContainer />
+            <Row className="botones">
+              <Col>
+                <Button className="btn btn-danger">Cancelar</Button>
+              </Col>
+
+              <Col>
+                <Button type="submit" className="btn btn-primary">
+                  Guardar
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+          <ToastContainer />
+        </Accordion>
       </Container>
-    </>
+    </div>
   );
 }
 

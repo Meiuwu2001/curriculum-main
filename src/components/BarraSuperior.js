@@ -3,14 +3,15 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, Outlet } from "react-router-dom";
+import "../si.css";
 
 function BarraSuperior() {
   return (
     <>
-      <Navbar bg="primary" expand="lg">
+      <Navbar expand="lg" className="barra">
         <Container>
-          <Navbar.Brand as={Link} to="/">
-            Contrataciones
+          <Navbar.Brand as={Link} to="/" className="logo">
+            CV Maker
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -24,12 +25,6 @@ function BarraSuperior() {
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="cv/agregar">
                   Agregar
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="cv/eliminar">
-                  Eliminar
-                </NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="cv/modificar">
-                  Modificar
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
