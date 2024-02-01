@@ -19,7 +19,7 @@ function BarraSuperior() {
               <Nav.Link as={Link} to="/">
                 Inicio
               </Nav.Link>
-              <NavDropdown title="Curriculims" id="basic-nav-dropdown">
+              <NavDropdown title="Curriculums" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="cv">
                   Lista
                 </NavDropdown.Item>

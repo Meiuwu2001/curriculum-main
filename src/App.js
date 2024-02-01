@@ -9,12 +9,6 @@ import ModificarCV from "./components/ModificarCV";
 import ListaCV from "./components/ListaCV";
 
 const App = () => {
-  // const [cvs, setCvs] = useState([]); // Estado para almacenar los currículos
-
-  // const handleDelete = (cvId) => {
-  //   // Lógica para eliminar el currículum vitae de la base de datos
-  // };
-
   return (
     <div>
       <Routes>
@@ -34,4 +28,3 @@ const App = () => {
 
 export default App;
 
-// {/* <EditCV cvData={/* Datos del currículum vitae seleccionado */} /> */}
