@@ -27,7 +27,7 @@ function ListaCV() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/curriculum");
+      const response = await fetch("http://localhost:5000/persona");
       const data = await response.json();
       setCurriculumList(data);
     } catch (error) {
@@ -106,16 +106,16 @@ function ListaCV() {
         },
       },
       server: {
-        url: "http://localhost:5000/curriculum",
+        url: "http://localhost:5000/persona",
         then: (data) =>
           data.map((curriculum) => [
-            curriculum.id,
+            curriculum.persona_id,
             curriculum.nombre,
             curriculum.apellidos,
             curriculum.profesion,
             curriculum.direccion,
             curriculum.telefono,
-            curriculum.email,
+            curriculum.correo_electronico,
           ]),
       },
     });
@@ -127,13 +127,13 @@ function ListaCV() {
     // Actualiza los datos en el Grid
     gridRef.current.updateConfig({
       data: curriculumList.map((curriculum) => [
-        curriculum.id,
+        curriculum.persona_id,
         curriculum.nombre,
-        curriculum.apellido_paterno,
-        curriculum.apellido_materno,
+        curriculum.apellidos,
+        curriculum.profesion,
+        curriculum.direccion,
         curriculum.telefono,
-        curriculum.idiomas,
-        curriculum.preparacion_academica,
+        curriculum.correo_electronico,
       ]),
     });
     gridRef.current.forceRender();
@@ -175,7 +175,7 @@ function ListaCV() {
               handleCloseConfirmModal();
               try {
                 const res = await fetch(
-                  `http://localhost:5000/curriculum/${deleteId}`,
+                  `http://localhost:5000/persona/${deleteId}`,
                   {
                     method: "DELETE",
                   }

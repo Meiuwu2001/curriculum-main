@@ -1,9 +1,8 @@
-// GeneralInfo.js
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Form, FloatingLabel } from "react-bootstrap";
 import axios from "axios";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
+import { ToastContainer, toast } from "react-toastify";
 
 const initialState = {
   nombre: "",
@@ -11,64 +10,60 @@ const initialState = {
   profesion: "",
   direccion: "",
   telefono: "",
-  email: "",
+  correo_electronico: "",
   fecha_nacimiento: "",
+  imagen: null, // Cambiado a un objeto File
 };
 
 function GeneralInfo() {
-  const [datos, setDatos] = useState(initialState);
-  const {
-    nombre,
-    apellidos,
-    profesion,
-    direccion,
-    telefono,
-    email,
-    fecha_nacimiento,
-  } = datos;
+  const [datos1, setDatos1] = useState(initialState);
 
   const resetForm = () => {
-    setDatos(initialState);
+    setDatos1(initialState);
   };
 
-  const handleInputChange = (e) => {
-    let { name, value } = e.target;
-    setDatos({ ...datos, [name]: value });
+  const handleInputChange1 = (e) => {
+    const { name, value, type } = e.target;
+
+    // Si el campo es un archivo (input type="file"), actualizamos la imagen en lugar del valor
+    const newValue = type === "file" ? e.target.files[0] : value;
+
+    setDatos1({ ...datos1, [name]: newValue });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit1 = async (event) => {
     event.preventDefault();
-    addDatos(datos);
-  };
 
-  const addDatos = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/curriculum",
-        data
-      );
+      const formData = new FormData();
+      // Agregar todos los campos al objeto FormData
+      Object.entries(datos1).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      const response = await axios.post("http://localhost:5000/persona", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       if (response.status === 200) {
         console.log(response.data);
-        toast.success("Curriculum guardado exitosamente.");
+        toast.success("Datos generales guardados exitosamente.");
         resetForm(); // Restablecer el formulario después de guardar exitosamente.
       } else {
-        console.error("Error al guardar el curriculum");
-        toast.error(
-          "Error al guardar el curriculum. Por favor, inténtalo de nuevo."
-        );
+        console.error("Error al guardar los datos generales");
+        toast.error("Error al guardar los datos generales. Por favor, inténtalo de nuevo.");
       }
     } catch (error) {
-      console.error("Error inesperado al guardar el curriculum", error);
-      toast.error(
-        "Error inesperado al guardar el curriculum. Por favor, inténtalo de nuevo."
-      );
+      console.error("Error inesperado al guardar los datos generales", error);
+      toast.error("Error inesperado al guardar los datos generales. Por favor, inténtalo de nuevo.");
     }
   };
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit1}>
         <Row className="mt-3 mb-3">
           <Col>
             <FloatingLabel label="Nombre(s)">
@@ -76,8 +71,7 @@ function GeneralInfo() {
                 name="nombre"
                 type="text"
                 placeholder="Ingresa nombre"
-                value={nombre}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
                 required
               />
             </FloatingLabel>
@@ -91,8 +85,7 @@ function GeneralInfo() {
                 name="apellidos"
                 type="text"
                 placeholder="Ingresa Apellidos"
-                value={apellidos}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
               />
             </FloatingLabel>
           </Col>
@@ -100,11 +93,10 @@ function GeneralInfo() {
           <Col>
             <FloatingLabel label="Profesión">
               <Form.Control
-                name="Profesion"
+                name="profesion"
                 type="text"
                 placeholder="Ingresa Profesión"
-                value={profesion}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
               />
             </FloatingLabel>
           </Col>
@@ -117,8 +109,7 @@ function GeneralInfo() {
                 name="direccion"
                 type="text"
                 placeholder="Ingresa Dirección"
-                value={direccion}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
               />
             </FloatingLabel>
           </Col>
@@ -130,8 +121,7 @@ function GeneralInfo() {
                 name="telefono"
                 type="text"
                 placeholder="Ingresa Telefono (618)1232323"
-                value={telefono}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
                 pattern="[(][0-9]{3}[)][0-9]{7}"
                 required
               />
@@ -146,8 +136,7 @@ function GeneralInfo() {
                 name="correo_electronico"
                 type="email"
                 placeholder="Ingresa Correo Electrónico"
-                value={email}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
                 required
               />
             </FloatingLabel>
@@ -159,13 +148,36 @@ function GeneralInfo() {
                 name="fecha_nacimiento"
                 type="date"
                 placeholder="Ingresa Fecha de Nacimiento"
-                value={fecha_nacimiento}
-                onChange={handleInputChange}
+                onChange={handleInputChange1}
                 required
               />
             </FloatingLabel>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <FloatingLabel label="Imagen">
+              <Form.Control
+                name="imagen"
+                type="file"
+                onChange={handleInputChange1}
+                required
+              />
+            </FloatingLabel>
+          </Col>
+        </Row>
+        <Row className="botones">
+          <Col className="btns">
+            <Button className="btn btn-danger">Cancelar</Button>
+          </Col>
+
+          <Col className="btns">
+            <Button type="submit" className="btn btn-primary">
+              Subir
+            </Button>
+          </Col>
+        </Row>
+        <ToastContainer />
       </Form>
     </>
   );

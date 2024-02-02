@@ -26,28 +26,23 @@ const CreatePreparacion = async (req, res) => {
     const query = `
             INSERT INTO preparacionacademica (
                 id_candidato, 
-                nivel_educactivo, 
-                institucion, 
-                titulo_obtenido, 
                 fecha_inicio, 
                 fecha_fin, 
-                notas 
+                grados_academicos,
+                ubicacion 
     
                 
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?)
         `;
 
     // Ejecutar la consulta con los datos del cuerpo de la solicitud (req.body)
     const [result] = await conn.query(query, [
       req.body.id_cadidato,
-      req.body.nivel_educativo,
-      req.body.institucion,
-      req.body.titulo_obtenido,
       req.body.fecha_inicio,
       req.body.fecha_fin,
-      req.body.notas,
+      req.body.grados_academicos,
+      req.body.ubicacion
     ]);
-
     // Enviar la respuesta JSON con el ID insertado y los datos de la solicitud
     res.json({
       id: result.insertId,
@@ -72,12 +67,10 @@ const UpdatePreparacion = async (req, res) => {
     const query = `
             UPDATE preparacionacademica 
             SET 
-                id_candidato = ?,
-                nivel_educativo = ?,
-                institucion = ?,
-                titulo_obtenido = ?,
                 fecha_inicio = ?,
-                fecha_fin = ?
+                fecha_fin = ?,
+                grados_academicos = ?,
+                ubicacion = ?
             WHERE id = ?;
         `;
 
@@ -85,12 +78,10 @@ const UpdatePreparacion = async (req, res) => {
 
     const [result] = await conn.query(query, [
       req.body.id_cadidato,
-      req.body.nivel_educativo,
-      req.body.institucion,
-      req.body.titulo_obtenido,
       req.body.fecha_inicio,
       req.body.fecha_fin,
-      req.body.notas,
+      req.body.grados_academicos,
+      req.body.ubicacion,
       id,
     ]);
 
