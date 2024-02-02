@@ -87,7 +87,7 @@ function ListaCV() {
       sort: true,
       style: {
         th: {
-          background: "#3047BD",
+          background: "#b28ef3",
           color: "#fbf8f8",
           border: "3px solid #ccc",
           textAlign: "center",
@@ -150,7 +150,7 @@ function ListaCV() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center", marginTop: "30px" }}>Lista de CVs</h1>
+      <h1 class="title">Lista de CVs</h1>
       <div
         ref={wrapperRef}
         style={{ textAlign: "center", marginTop: "30px" }}

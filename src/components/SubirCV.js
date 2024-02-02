@@ -9,7 +9,6 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Accordion from "react-bootstrap/Accordion";
-import "../si.css";
 
 const initialState = {
   nombre: "",
@@ -483,13 +482,13 @@ function SubirCV() {
             </Accordion.Item>
 
             <Row className="botones">
-              <Col>
+              <Col className="btns">
                 <Button className="btn btn-danger">Cancelar</Button>
               </Col>
 
-              <Col>
+              <Col className="btns">
                 <Button type="submit" className="btn btn-primary">
-                  Guardar
+                  Subir
                 </Button>
               </Col>
             </Row>
