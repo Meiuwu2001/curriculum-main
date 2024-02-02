@@ -14,16 +14,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-//controladores
-
-
-
-
 router.get("/idiomas", idiomaController.getAllCertificacion)
 
 router.get("/idiomas/:id", idiomaController.getOneCertificacion)
 
-router.post("/idiomas", upload.single('escaneo_certificado'), idiomaController.CreateCertificacion);
+router.post("/idiomas", upload.single('escaneo_certificado'), idiomaController.CreateCertificacion)
 
 router.delete("/idiomas/:id", idiomaController.DeleteCertificacion)
 

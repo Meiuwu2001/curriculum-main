@@ -97,10 +97,7 @@ function SubirCV() {
             <Accordion.Item eventKey="0" className="accordion">
               <Accordion.Header>Datos Generales</Accordion.Header>
               <Accordion.Body>
-                <GeneralInfo
-                  datos={datos}
-                  handleInputChange={handleInputChange}
-                />
+              <GeneralInfo datos={datos} handleInputChange={handleInputChange} />
               </Accordion.Body>
             </Accordion.Item>
 

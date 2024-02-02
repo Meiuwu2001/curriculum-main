@@ -28,13 +28,19 @@ const CreatePersona = async (req, res) => {
             nombre,
             apellidos,
             direccion,
+            telefono,
+            correo_electronico,
+            fecha_nacimiento
             imagen
-        ) VALUES (?, ?, ?, ?)`;
+        ) VALUES (?)`;
 
         const [result] = await conn.execute(query, [
             req.body.nombre,
             req.body.apellidos,
             req.body.direccion,
+            req.body.telefono,
+            req.body.correo_electronico,
+            req.body.fecha_nacimiento,
             req.file.filename
         ]);
 
@@ -49,10 +55,51 @@ const CreatePersona = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
+const UpdatePersona = async (req, res) => {
+  try {
+    const conn = await connect();
+
+    const query = `
+            UPDATE curriculum 
+            SET 
+                nombre = ?,
+                apellidos = ?,
+                direccion = ?,
+                telefono = ?,
+                correo_electronico = ?,
+                fecha_nacimiento = ?
+            WHERE id = ?;
+        `;
+
+    const { id, ...newData } = req.body;
+
+    const [result] = await conn.query(query, [
+      newData.nombre,
+      newData.apellidos,
+      newData.direccion,
+      newData.telefono,
+      newData.correo_electronico,
+      newData.fecha_nacimiento,
+      id,
+    ]);
+
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ error: "No se encontró el registro para actualizar" });
+    }
+
+    res.json({ message: "Datos actualizados correctamente" });
+  } catch (error) {
+    console.error("Error al actualizar datos:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
 const DeletePersona = async (req, res) => {
     const conn = await connect();
     await conn.query("DELETE FROM persona WHERE id = ?", [req.params.id]);
     res.send("Eliminado");
   };
 
-module.exports = { CreatePersona, getAllPersona, getOnePersona, DeletePersona};
+module.exports = { CreatePersona, getAllPersona, UpdatePersona, getOnePersona, DeletePersona};
