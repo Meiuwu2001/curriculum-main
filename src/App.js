@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import BarraSuperior from "./components/BarraSuperior";
 import SubirCV from "./components/SubirCV";
@@ -27,4 +27,3 @@ const App = () => {
 };
 
 export default App;
-

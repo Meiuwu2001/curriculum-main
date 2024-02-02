@@ -11,7 +11,7 @@ function BarraSuperior() {
       <Navbar expand="lg" className="barra">
         <Container>
           <Navbar.Brand as={Link} to="/" className="logo">
-            CV Maker
+            CV/Maker
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
