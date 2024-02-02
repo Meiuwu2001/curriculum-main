@@ -32,24 +32,24 @@ function AcademicInfo() {
   const addDatos = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/curriculum",
+        "http://localhost:5000/idiomas",
         data
       );
 
       if (response.status === 200) {
         console.log(response.data);
-        toast.success("Curriculum guardado exitosamente.");
+        toast.success("Idioma guardado exitosamente.");
         resetForm(); // Restablecer el formulario después de guardar exitosamente.
       } else {
-        console.error("Error al guardar el curriculum");
+        console.error("Error al guardar el Idioma");
         toast.error(
-          "Error al guardar el curriculum. Por favor, inténtalo de nuevo."
+          "Error al guardar el Idioma. Por favor, inténtalo de nuevo."
         );
       }
     } catch (error) {
-      console.error("Error inesperado al guardar el curriculum", error);
+      console.error("Error inesperado al guardar el Idioma", error);
       toast.error(
-        "Error inesperado al guardar el curriculum. Por favor, inténtalo de nuevo."
+        "Error inesperado al guardar el Idioma. Por favor, inténtalo de nuevo."
       );
     }
   };
@@ -90,7 +90,7 @@ function AcademicInfo() {
             <FloatingLabel label="Curso o Certificación">
               <Form.Control
                 name="certificacion"
-                type="text"
+                type="file"
                 placeholder="Ingresa Curso o Certificación"
                 value={certificacion}
                 onChange={handleInputChange}
