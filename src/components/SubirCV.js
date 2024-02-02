@@ -3,7 +3,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -122,7 +121,6 @@ function SubirCV() {
               <Accordion.Header>Datos Generales</Accordion.Header>
               <Accordion.Body>
               <GeneralInfo datos={datos} handleInputChange={handleInputChange} />
-              
               </Accordion.Body>
             </Accordion.Item>
 
@@ -134,7 +132,10 @@ function SubirCV() {
                     <p className="fs-3">Experiencia Profesional</p>
                   </Col>
                 </Row>
-           <ProfessionalExperience datos={datos} handleInputChange={handleInputChange} />
+                <ProfessionalExperience
+                  datos={datos}
+                  handleInputChange={handleInputChange}
+                />
               </Accordion.Body>
             </Accordion.Item>
 
@@ -146,7 +147,10 @@ function SubirCV() {
                     <p className="fs-3">Información Académica</p>
                   </Col>
                 </Row>
-                <AcademicInfo datos={datos} handleInputChange={handleInputChange} />
+                <AcademicInfo
+                  datos={datos}
+                  handleInputChange={handleInputChange}
+                />
               </Accordion.Body>
             </Accordion.Item>
 
@@ -170,7 +174,10 @@ function SubirCV() {
                     <p className="fs-3">Idiomas</p>
                   </Col>
                 </Row>
-                <Languages datos={datos} handleInputChange={handleInputChange} />
+                <Languages
+                  datos={datos}
+                  handleInputChange={handleInputChange}
+                />
               </Accordion.Body>
             </Accordion.Item>
 
