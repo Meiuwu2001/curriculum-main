@@ -1,5 +1,22 @@
 const connect = require("../connect");
 
+
+
+const getAllPersona = async (req, res) => {
+    const conn = await connect();
+    const [rows] = await conn.query("SELECT * FROM persona");
+    console.log(rows);
+    res.send(rows);
+  };
+  const getOnePersona = async (req, res) => {
+    const conn = await connect();
+    const [rows] = await conn.query("SELECT * FROM persona WHERE id = ?", [
+      req.params.id,
+    ]);
+    console.log(rows[0]);
+    res.send(rows[0]);
+  };
+
 const CreatePersona = async (req, res) => {
     try {
         const conn = await connect();
@@ -32,5 +49,10 @@ const CreatePersona = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 };
+const DeletePersona = async (req, res) => {
+    const conn = await connect();
+    await conn.query("DELETE FROM persona WHERE id = ?", [req.params.id]);
+    res.send("Eliminado");
+  };
 
-module.exports = { CreatePersona };
+module.exports = { CreatePersona, getAllPersona, getOnePersona, DeletePersona};

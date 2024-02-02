@@ -15,5 +15,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/persona", upload.single('imagen'), personaController.CreatePersona);
+router.get("/persona", personaController.getAllPersona);
+router.get("/persona/:id", personaController.getOnePersona);
+router.delete("/persona/:id", personaController.DeletePersona);
 
 module.exports = router;
