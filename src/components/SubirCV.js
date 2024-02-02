@@ -41,30 +41,7 @@ const initialState = {
 
 function SubirCV() {
   const [datos, setDatos] = useState(initialState);
-  const {
-    nombre,
-    apellidos,
-    profesion,
-    direccion,
-    telefono,
-    email,
-    fecha_nacimiento,
-    puesto,
-    empresa,
-    ubicacion_empresa,
-    inicio_empresa,
-    fin_empresa,
-    funciones,
-    grado_academico,
-    institucion,
-    ubicacion_institucion,
-    inicio_institucion,
-    graduacion,
-    habilidades,
-    idiomas,
-    nivel,
-    certificacion,
-  } = datos;
+  const {} = datos;
 
   const resetForm = () => {
     setDatos(initialState);
