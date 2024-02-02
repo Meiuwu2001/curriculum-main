@@ -26,7 +26,7 @@ const CreateCertificacion = async (req, res) => {
             INSERT INTO idiomas (
                 idioma,  
                 nivel_competencia, 
-                id_curriculum
+                id_curriculumm,
                 escaneo_certificado 
             ) VALUES (?, ?, ?, ?)
         `;
@@ -35,7 +35,7 @@ const CreateCertificacion = async (req, res) => {
     const [result] = await conn.execute(query, [
       req.body.idioma,
       req.body.nivel_competencia,
-      req.body.id_curriculum,
+      req.body.id_curriculumm,
       req.file.filename,
     ]);
     console.log("result:", result);

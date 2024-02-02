@@ -122,6 +122,7 @@ function SubirCV() {
               <Accordion.Header>Datos Generales</Accordion.Header>
               <Accordion.Body>
               <GeneralInfo datos={datos} handleInputChange={handleInputChange} />
+              
               </Accordion.Body>
             </Accordion.Item>
 
