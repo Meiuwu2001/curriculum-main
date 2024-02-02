@@ -1,12 +1,8 @@
 .logo {
   color: #b28ef3;
-  font-size: 1.7vw;
-  border-right: 0.2vw solid #e9e7eb;
+  font-size: 1.5vw;
+  border-right: 0.2vw solid #efedf1;
   padding-right: 3vw;
-  padding-bottom: 1vw;
-  padding-top: 1vw;
-  margin-bottom: -0.4vw;
-  margin-top: -0.45vw;
   font-weight: 700;
   margin-left: -13vw;
   margin-right: 2vw;
@@ -18,7 +14,8 @@
 
 .barra {
   background-color: #fff;
-  border-bottom: 0.3vw solid #b28ef3;
+  border-bottom: 0.2vw solid #b28ef3;
+  width: 100vw;
 }
 
 .texto_barra {
@@ -26,19 +23,23 @@
 }
 
 .texto {
-  color: #808080;
+  color: #757575;
   margin-bottom: 2vw;
-  font-size: 1vw;
+  font-size: 1.1vw;
 }
 
 .si {
   background-color: #f5f5f5;
-  height: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  width: 100vw;
 }
 
 .title {
   margin-top: 1vw;
   color: #525252;
+  text-align: center;
 }
 
 .accordion {
@@ -47,4 +48,15 @@
 
 .botones {
   margin-top: 2vw;
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.no {
+  color: #fff;
 }
