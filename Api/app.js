@@ -4,7 +4,6 @@ const persona = require("./routes/persona")
 const idiomas = require("./routes/idiomas")
 //rutas
 const cors = require("cors")
-const bodyParser = require('body-parser');
 
 const app = express()
 
