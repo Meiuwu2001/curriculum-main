@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import EliminarCV from "./components/EliminarCV";
 import ModificarCV from "./components/ModificarCV";
 import ListaCV from "./components/ListaCV";
+import ListaIdiomas from "./components/ListaIdiomas";
 import "./App.css";
 
 const App = () => {
@@ -20,6 +21,10 @@ const App = () => {
             <Route path="agregar" element={<SubirCV />} />
             <Route path="eliminar/:cv" element={<EliminarCV />} />
             <Route path="modificar/:cv" element={<ModificarCV />} />
+          </Route>
+          <Route path="idiomas">
+          <Route index element={<ListaIdiomas />} />
+
           </Route>
         </Route>
       </Routes>

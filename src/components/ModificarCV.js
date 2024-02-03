@@ -8,72 +8,63 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import Image from "react-bootstrap/Image";  // Importa el componente Image
+
 
 
 const initialState = {
   nombre: "",
-  apellido_paterno: "",
-  apellido_materno: "",
-  direccion: "",
+  apellidos: "",
+  profesion: "",
+  direccion: "", 
   telefono: "",
   correo_electronico: "",
-  preparacion_academica: "",
-  linkedin: "",
-  github: "",
-  experiencia_profesional: "",
-  idiomas: "",
-  habilidades: "",
-  objetivo: "",
+  imagen: "",  // Agrega el campo imagen a tu estado
+
 };
 function ModificarCV() {
   
-  const [curriculum, setCurriculum] = useState(initialState);
+  const [Persona, setPersona] = useState(initialState);
   const {
     nombre,
-    apellido_paterno,
-    apellido_materno,
+    apellidos,
+    profesion,
     direccion,
     telefono,
     correo_electronico,
-    preparacion_academica,
-    linkedin,
-    github,
-    experiencia_profesional,
-    idiomas,
-    habilidades,
-    objetivo,
-  } = curriculum;
+    imagen
+  } = Persona;
 
   const {cv} = useParams()
 
   useEffect(() => {
-    getCurriculum(cv);
+    getPersona(cv);
     console.log("ID from useParams:", cv);
 
   }, []);
 
-  const getCurriculum = async (m) => {
-    const res = await fetch(`http://127.0.0.1:5000/curriculum/${m}`);
+  const getPersona = async (m) => {
+    const res = await fetch(`http://127.0.0.1:5000/persona/${m}`);
     const dato = await res.json();
-    setCurriculum(dato);
+    setPersona(dato);
   };
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
-    setCurriculum({ ...curriculum, [name]: value });
+    setPersona({ ...Persona, [name]: value });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    modifyCV(curriculum);
+    modifyCV(Persona);
   };
   const modifyCV = async (data) => {
     const response = await axios.put(
-      `http://localhost:5000/curriculum/${cv}`,
+      `http://localhost:5000/persona/${cv}`,
       data
     );
     if (response.status === 200) {
       console.log(response.data);
-      toast.success("Curriculum modificado exitosamente.");
+      toast.success("Persona modificado exitosamente.");
 
     }
   };
@@ -85,7 +76,12 @@ function ModificarCV() {
             <h1>Curriculum Vitae</h1>
           </Col>
         </Row>
-
+     {/* Añade el componente Image para mostrar la imagen */}
+     <Row className="mt-3 mb-3">
+          <Col>
+          <Image src={`/images/${imagen}`} alt="Imagen de la persona" fluid />
+          </Col>
+        </Row>
         <Form onSubmit={handleSubmit}>
           <Row>
             <Col>
@@ -112,41 +108,41 @@ function ModificarCV() {
             <Col>
               <FloatingLabel label="Apellido Paterno">
                 <Form.Control
-                  name="apellido_paterno"
+                  name="apellidos"
                   type="text"
                   placeholder="Ingresa Apellido paterno"
-                  value={apellido_paterno}
+                  value={apellidos}
                   onChange={handleInputChange}
                 />
               </FloatingLabel>
             </Col>
 
-            <Col>
-              <FloatingLabel label="Apellido Materno">
-                <Form.Control
-                  name="apellido_materno"
-                  type="text"
-                  placeholder="Ingresa Apellido materno"
-                  value={apellido_materno}
-                  onChange={handleInputChange}
-                />
-              </FloatingLabel>
-            </Col>
+           
           </Row>
 
           <Row className="mt-3 mb-3">
+            <Col>
+              <FloatingLabel label="Profesión">
+                <Form.Control
+                  name="profesion"
+                  type="text"
+                  placeholder="Ingresa profesión"
+                  value={profesion}
+                  onChange={handleInputChange}
+                />
+              </FloatingLabel>
+            </Col>
             <Col>
               <FloatingLabel label="Dirección">
                 <Form.Control
                   name="direccion"
                   type="text"
-                  placeholder="Ingresa Dirección"
+                  placeholder="Ingresa profesión"
                   value={direccion}
                   onChange={handleInputChange}
                 />
               </FloatingLabel>
             </Col>
-
             <Col>
               <FloatingLabel label="Teléfono">
                 {" "}
@@ -177,102 +173,7 @@ function ModificarCV() {
               </FloatingLabel>
             </Col>
 
-            <Col>
-              <FloatingLabel label="Preparación Académica">
-                <Form.Control
-                  name="preparacion_academica"
-                  type="text"
-                  placeholder="Ingresa Preparación Académica"
-                  value={preparacion_academica}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
-
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Linkedin">
-                <Form.Control
-                  name="linkedin"
-                  type="text"
-                  placeholder="Ingresa Linkedin"
-                  value={linkedin}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-
-            <Col>
-              <FloatingLabel label="Github">
-                <Form.Control
-                  name="github"
-                  type="text"
-                  placeholder="Ingresa Github"
-                  value={github}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
-
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Experiencia Profesional">
-                <Form.Control
-                  name="experiencia_profesional"
-                  type="text"
-                  placeholder="Ingresa Experiencia profesional"
-                  value={experiencia_profesional}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-
-            <Col>
-              <FloatingLabel label="Idiomas">
-                <Form.Control
-                  name="idiomas"
-                  type="text"
-                  placeholder="Ingresa Idiomas"
-                  value={idiomas}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-          </Row>
-
-          <Row className="mt-3 mb-3">
-            <Col>
-              <FloatingLabel label="Habilidades">
-                <Form.Control
-                  name="habilidades"
-                  type="text"
-                  placeholder="Ingresa Habilidades"
-                  value={habilidades}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
-
-            <Col>
-              <FloatingLabel label="Objetivo">
-                <Form.Control
-                  name="objetivo"
-                  type="text"
-                  placeholder="Ingresa Objetivo"
-                  value={objetivo}
-                  onChange={handleInputChange}
-                  required
-                />
-              </FloatingLabel>
-            </Col>
+          
           </Row>
 
           <Row>

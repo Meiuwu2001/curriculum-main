@@ -18,5 +18,7 @@ router.post("/persona", upload.single('imagen'), personaController.CreatePersona
 router.get("/persona", personaController.getAllPersona);
 router.get("/persona/:id", personaController.getOnePersona);
 router.delete("/persona/:id", personaController.DeletePersona);
+router.put("/persona/:id", personaController.UpdatePersona);
+
 
 module.exports = router;

@@ -75,7 +75,7 @@ const UpdatePersona = async (req, res) => {
         `;
 
     const { id, ...newData } = req.body;
-
+console.log(id, newData);
     const [result] = await conn.query(query, [
       newData.nombre,
       newData.apellidos,
@@ -84,7 +84,7 @@ const UpdatePersona = async (req, res) => {
       newData.telefono,
       newData.correo_electronico,
       newData.fecha_nacimiento,
-      id,
+      req.params.id,
     ]);
 
     if (result.affectedRows === 0) {

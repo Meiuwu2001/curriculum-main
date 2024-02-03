@@ -21,10 +21,13 @@ function BarraSuperior() {
               </Nav.Link>
               <NavDropdown title="Curriculums" id="basic-nav-dropdown">
                 <NavDropdown.Item as={Link} to="cv">
-                  Lista
+                  Lista Personas
                 </NavDropdown.Item>
                 <NavDropdown.Item as={Link} to="cv/agregar">
                   Agregar
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="idiomas">
+                  Lista Idiomas
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>

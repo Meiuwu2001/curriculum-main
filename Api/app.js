@@ -4,6 +4,7 @@ const persona = require("./routes/persona")
 const idiomas = require("./routes/idiomas")
 const experiencia = require("./routes/experienciaProfesional")
 const preparacion = require("./routes/preparacionAcademica")
+const habilidades = require("./routes/habilidades");
 //rutas
 const cors = require("cors")
 
@@ -17,7 +18,7 @@ app.use(persona)
 app.use(idiomas)
 app.use(experiencia)
 app.use(preparacion)
-
+app.use(habilidades)
 
 
 

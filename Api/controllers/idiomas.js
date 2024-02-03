@@ -2,14 +2,14 @@ const connect = require("../connect");
 
 const getAllCertificacion = async (req, res) => {
   const conn = await connect();
-  const [rows] = await conn.query("SELECT * FROM idiomas");
+  const [rows] = await conn.query("SELECT idiomas.*, persona.* FROM idiomas INNER JOIN persona ON idiomas.id_curriculumm = persona.persona_id");
   console.log(rows);
   res.send(rows);
 };
 
 const getOneCertificacion = async (req, res) => {
   const conn = await connect();
-  const [rows] = await conn.query("SELECT * FROM idiomas WHERE id = ?", [
+  const [rows] = await conn.query("SELECT idiomas.*, persona.* FROM idiomas INNER JOIN persona ON idiomas.id_curriculumm = persona.persona_id  WHERE idiomas.id = ?  ", [
     req.params.id,
   ]);
   console.log(rows[0]);
