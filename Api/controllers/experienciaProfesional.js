@@ -31,7 +31,7 @@ const CreateExperiencia = async (req, res) => {
                 fecha_fin, 
                 funciones,
                 id_persona
-            ) VALUES (?)
+            ) VALUES (?,?,?,?,?,?,?)
         `;
 
     // Ejecutar la consulta con los datos del cuerpo de la solicitud (req.body)
@@ -74,7 +74,8 @@ const UpdateExperiencia = async (req, res) => {
                 ubicacion = ?,
                 fecha_inicio = ?,
                 fecha_fin = ?,
-                funciones = ?
+                funciones = ?,
+                id_persona = ?
             WHERE id = ?;
         `;
 

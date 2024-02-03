@@ -3,69 +3,158 @@ import React from "react";
 import { Row, Col, Form, FloatingLabel } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
+import Autosuggest from "react-autosuggest";
+
+
 
 const initialState = {
-  idiomas: "",
-  nivel: "",
-  certificacion: "",
+  idioma: "",
+  nivel_competencia: "",
+  escaneo_certificado: "",
 };
 
-function AcademicInfo() {
-  const [datos, setDatos] = useState(initialState);
-  const { idiomas, nivel, certificacion } = datos;
+function Languages() {
+  const [personas, setPersonas] = useState([]);  // Cambiado a 'personas' y inicializado como un array vacío
+  const [value, setValue] = useState("");
+  const [personaSeleccionada, setPersonaSeleccionada] = useState({});
+
+  const onSuggestionsFetchRequested = async ({ value }) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/persona`);
+  
+      if (response.status === 200) {
+        const personas = response.data;
+        setPersonas(personas);
+      } else {
+        console.error("Error al obtener las personas");
+        toast.error("Error al obtener las personas. Por favor, inténtalo de nuevo.");
+      }
+    } catch (error) {
+      console.error("Error inesperado al obtener las personas", error);
+      toast.error("Error inesperado al obtener las personas. Por favor, inténtalo de nuevo.");
+    }
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setPersonas([]);
+  };
+
+  const getSuggestionValue = (suggestion) => {
+    return `${suggestion.nombre} - ${suggestion.apellidos}`;
+  };
+
+  const renderSuggestion = (suggestion) => (
+    <div
+      className="sugerencia"
+      onClick={() => seleccionarPersona(suggestion)}
+    >
+      {`${suggestion.nombre} - ${suggestion.apellidos}`}
+    </div>
+  );
+
+  const seleccionarPersona = (persona) => {
+    setPersonaSeleccionada(persona);
+  };
+
+  const onChange = (e, { newValue }) => {
+    setValue(newValue);
+  };
+
+  const inputProps = {
+    placeholder: "Nombre o Apellidos de la Persona",
+    value,
+    onChange,
+  };
+
+  const eventEnter = (e) => {
+    if (e.key === "Enter") {
+      var split = e.target.value.split("-");
+      var persona = {
+        nombre: split[0].trim(),
+        apellidos: split[1].trim(),
+      };
+      seleccionarPersona(persona);
+    }
+  };
+
+  /////////////////////////////////////////////////////////
+  const [datos2, setDatos2] = useState(initialState);
 
   const resetForm = () => {
-    setDatos(initialState);
+    setDatos2(initialState);
   };
 
-  const handleInputChange = (e) => {
-    let { name, value } = e.target;
-    setDatos({ ...datos, [name]: value });
+  const handleInputChange2 = (e) => {
+    const { name, value, type } = e.target;
+    const newValue = type === "file" ? e.target.files[0] : value;
+
+    setDatos2({ ...datos2, [name]: newValue });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit2 = async (event) => {
     event.preventDefault();
-    addDatos(datos);
-  };
-
-  const addDatos = async (data) => {
+    console.log("id", personaSeleccionada.persona_id)
     try {
+      const formData = new FormData();
+      formData.append("id_curriculumm", personaSeleccionada.persona_id);
+      // Agregar todos los campos al objeto FormData
+      Object.entries(datos2).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      console.log(' Soy el form data para que no pierdas');
+      for (let pair of formData.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+    }
+
       const response = await axios.post(
         "http://localhost:5000/idiomas",
-        data
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-
       if (response.status === 200) {
         console.log(response.data);
-        toast.success("Idioma guardado exitosamente.");
+        toast.success("Datos generales guardados exitosamente.");
         resetForm(); // Restablecer el formulario después de guardar exitosamente.
       } else {
-        console.error("Error al guardar el Idioma");
+        console.error("Error al guardar los datos generales");
         toast.error(
-          "Error al guardar el Idioma. Por favor, inténtalo de nuevo."
+          "Error al guardar los datos generales. Por favor, inténtalo de nuevo."
         );
       }
     } catch (error) {
-      console.error("Error inesperado al guardar el Idioma", error);
+      console.error("Error inesperado al guardar los datos generales", error);
       toast.error(
-        "Error inesperado al guardar el Idioma. Por favor, inténtalo de nuevo."
+        "Error inesperado al guardar los datos generales. Por favor, inténtalo de nuevo."
       );
     }
   };
 
   return (
     <>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit2}>
+        <Autosuggest
+          suggestions={personas}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          onSuggestionSelected={eventEnter}
+        />
         <Row className="mt-3 mb-3">
           <Col>
             <FloatingLabel label="Idiomas">
               <Form.Control
-                name="idiomas"
+                name="idioma"
                 type="text"
                 placeholder="Ingresa Idiomas"
-                value={idiomas}
-                onChange={handleInputChange}
+                onChange={handleInputChange2}
                 required
               />
             </FloatingLabel>
@@ -76,11 +165,10 @@ function AcademicInfo() {
           <Col>
             <FloatingLabel label="Nivel de Habilidad">
               <Form.Control
-                name="nivel"
+                name="nivel_competencia"
                 type="text"
                 placeholder="Ingresa Nivel de Habilidad"
-                value={nivel}
-                onChange={handleInputChange}
+                onChange={handleInputChange2}
                 required
               />
             </FloatingLabel>
@@ -89,19 +177,30 @@ function AcademicInfo() {
           <Col>
             <FloatingLabel label="Curso o Certificación">
               <Form.Control
-                name="certificacion"
+                name="escaneo_certificado"
                 type="file"
                 placeholder="Ingresa Curso o Certificación"
-                value={certificacion}
-                onChange={handleInputChange}
+                onChange={handleInputChange2}
                 required
               />
             </FloatingLabel>
           </Col>
         </Row>
+        <Row className="botones">
+          <Col className="btns">
+            <Button className="btn btn-danger">Cancelar</Button>
+          </Col>
+
+          <Col className="btns">
+            <Button type="submit" className="btn btn-primary">
+              Subir
+            </Button>
+          </Col>
+        </Row>
+        <ToastContainer />
       </Form>
     </>
   );
 }
 
-export default AcademicInfo;
+export default Languages;

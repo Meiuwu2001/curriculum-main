@@ -24,24 +24,24 @@ const CreatePreparacion = async (req, res) => {
 
     // Definir la consulta de inserción
     const query = `
-            INSERT INTO preparacionacademica (
-                id_candidato, 
-                fecha_inicio, 
-                fecha_fin, 
-                grados_academicos,
-                ubicacion 
-    
-                
-            ) VALUES (?)
+    INSERT INTO preparacionacademica (
+      id_candidato, 
+      fecha_inicio, 
+      fecha_fin, 
+      grados_academicos,
+      institucion,
+      ubicacion 
+  ) VALUES (?, ?, ?, ?, ? ,?)
         `;
 
     // Ejecutar la consulta con los datos del cuerpo de la solicitud (req.body)
     const [result] = await conn.query(query, [
-      req.body.id_cadidato,
+      req.body.id_candidato,
       req.body.fecha_inicio,
       req.body.fecha_fin,
       req.body.grados_academicos,
-      req.body.ubicacion
+      req.body.institucion,
+      req.body.ubicacion,
     ]);
     // Enviar la respuesta JSON con el ID insertado y los datos de la solicitud
     res.json({

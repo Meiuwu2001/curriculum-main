@@ -3,25 +3,91 @@ import React from "react";
 import { Row, Col, Form, FloatingLabel } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import Button from "react-bootstrap/Button";
+import Autosuggest from "react-autosuggest";
+
 
 const initialState = {
-  puesto: "",
+  titulo: "",
   empresa: "",
-  ubicacion_empresa: "",
-  inicio_empresa: "",
-  fin_empresa: "",
+  ubicacion: "",
+  fecha_inicio: "",
+  fecha_fin: "",
   funciones: "",
 };
 
 function ProfessionalExperience() {
+  const [personas, setPersonas] = useState([]); // Cambiado a 'personas' y inicializado como un array vacío
+  const [value, setValue] = useState("");
+  const [personaSeleccionada, setPersonaSeleccionada] = useState({});
+
+  const onSuggestionsFetchRequested = async ({ value }) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/persona`);
+
+      if (response.status === 200) {
+        const personas = response.data;
+        setPersonas(personas);
+      } else {
+        console.error("Error al obtener las personas");
+        toast.error(
+          "Error al obtener las personas. Por favor, inténtalo de nuevo."
+        );
+      }
+    } catch (error) {
+      console.error("Error inesperado al obtener las personas", error);
+      toast.error(
+        "Error inesperado al obtener las personas. Por favor, inténtalo de nuevo."
+      );
+    }
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setPersonas([]);
+  };
+
+  const getSuggestionValue = (suggestion) => {
+    return `${suggestion.nombre} - ${suggestion.apellidos}`;
+  };
+
+  const renderSuggestion = (suggestion) => (
+    <div className="sugerencia" onClick={() => seleccionarPersona(suggestion)}>
+      {`${suggestion.nombre} - ${suggestion.apellidos}`}
+    </div>
+  );
+
+  const seleccionarPersona = (persona) => {
+    setPersonaSeleccionada(persona);
+  };
+
+  const onChange = (e, { newValue }) => {
+    setValue(newValue);
+  };
+
+  const inputProps = {
+    placeholder: "Nombre o Apellidos de la Persona",
+    value,
+    onChange,
+  };
+
+  const eventEnter = (e) => {
+    if (e.key === "Enter") {
+      var split = e.target.value.split("-");
+      var persona = {
+        nombre: split[0].trim(),
+        apellidos: split[1].trim(),
+      };
+      seleccionarPersona(persona);
+    }
+  };
   const [datos, setDatos] = useState(initialState);
   const {
-    puesto,
+    titulo,
     empresa,
-    ubicacion_empresa,
-    inicio_empresa,
-    fin_empresa,
+    ubicacion,
+    fecha_inicio,
+    fecha_fin,
     funciones,
   } = datos;
 
@@ -38,43 +104,53 @@ function ProfessionalExperience() {
     event.preventDefault();
     addDatos(datos);
   };
-
   const addDatos = async (data) => {
     try {
+      data.id_candidato = personaSeleccionada.persona_id;
       const response = await axios.post(
-        "http://localhost:5000/curriculum",
+        "http://localhost:5000/experiencia",
         data
       );
 
       if (response.status === 200) {
         console.log(response.data);
-        toast.success("Curriculum guardado exitosamente.");
+        toast.success("Experiencia profesional guardado exitosamente.");
         resetForm(); // Restablecer el formulario después de guardar exitosamente.
       } else {
-        console.error("Error al guardar el curriculum");
+        console.error("Error al guardar el Experiencia profesional");
         toast.error(
-          "Error al guardar el curriculum. Por favor, inténtalo de nuevo."
+          "Error al guardar el Experiencia profesional. Por favor, inténtalo de nuevo."
         );
       }
     } catch (error) {
-      console.error("Error inesperado al guardar el curriculum", error);
+      console.error("Error inesperado al guardar el Experiencia profesional", error);
       toast.error(
-        "Error inesperado al guardar el curriculum. Por favor, inténtalo de nuevo."
+        "Error inesperado al guardar el Experiencia profesional. Por favor, inténtalo de nuevo."
       );
     }
   };
 
   return (
     <>
+    
       <Form onSubmit={handleSubmit}>
+      <Autosuggest
+          suggestions={personas}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          onSuggestionSelected={eventEnter}
+        />
         <Row className="mt-3 mb-3">
           <Col>
             <FloatingLabel label="Título/Puesto">
               <Form.Control
-                name="puesto"
+                name="titulo"
                 type="text"
                 placeholder="Ingresa Título/Puesto"
-                value={puesto}
+                value={titulo}
                 onChange={handleInputChange}
                 required
               />
@@ -99,10 +175,10 @@ function ProfessionalExperience() {
           <Col>
             <FloatingLabel label="Ubicación">
               <Form.Control
-                name="ubicacion_empresa"
+                name="ubicacion"
                 type="text"
                 placeholder="Ingresa Ubicación"
-                value={ubicacion_empresa}
+                value={ubicacion}
                 onChange={handleInputChange}
                 required
               />
@@ -114,10 +190,10 @@ function ProfessionalExperience() {
           <Col>
             <FloatingLabel label="Fecha de Inicio">
               <Form.Control
-                name="inicio_empresa"
+                name="fecha_inicio"
                 type="date"
                 placeholder="Ingresa Fecha de Inicio"
-                value={inicio_empresa}
+                value={fecha_inicio}
                 onChange={handleInputChange}
                 required
               />
@@ -127,10 +203,10 @@ function ProfessionalExperience() {
           <Col>
             <FloatingLabel label="Fecha de Finalización">
               <Form.Control
-                name="fin_empresa"
+                name="fecha_fin"
                 type="date"
                 placeholder="Ingresa Fecha de Finalización"
-                value={fin_empresa}
+                value={fecha_fin}
                 onChange={handleInputChange}
                 required
               />
@@ -152,6 +228,18 @@ function ProfessionalExperience() {
             </FloatingLabel>
           </Col>
         </Row>
+        <Row className="botones">
+          <Col className="btns">
+            <Button className="btn btn-danger">Cancelar</Button>
+          </Col>
+
+          <Col className="btns">
+            <Button type="submit" className="btn btn-primary">
+              Subir
+            </Button>
+          </Col>
+        </Row>
+        <ToastContainer />
       </Form>
     </>
   );

@@ -3,24 +3,90 @@ import React from "react";
 import { Row, Col, Form, FloatingLabel } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import {ToastContainer, toast } from "react-toastify";
+import Autosuggest from "react-autosuggest";
+import Button from "react-bootstrap/Button";
 
 const initialState = {
-  grado_academico: "",
+  grados_academicos: "",
   institucion: "",
-  ubicacion_institucion: "",
-  inicio_institucion: "",
-  graduacion: "",
+  ubicacion: "",
+  fecha_inicio: "",
+  fecha_fin: "",
 };
 
 function AcademicInfo() {
+  const [personas, setPersonas] = useState([]);  // Cambiado a 'personas' y inicializado como un array vacío
+  const [value, setValue] = useState("");
+  const [personaSeleccionada, setPersonaSeleccionada] = useState({});
+
+  const onSuggestionsFetchRequested = async ({ value }) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/persona`);
+  
+      if (response.status === 200) {
+        const personas = response.data;
+        setPersonas(personas);
+      } else {
+        console.error("Error al obtener las personas");
+        toast.error("Error al obtener las personas. Por favor, inténtalo de nuevo.");
+      }
+    } catch (error) {
+      console.error("Error inesperado al obtener las personas", error);
+      toast.error("Error inesperado al obtener las personas. Por favor, inténtalo de nuevo.");
+    }
+  };
+
+  const onSuggestionsClearRequested = () => {
+    setPersonas([]);
+  };
+
+  const getSuggestionValue = (suggestion) => {
+    return `${suggestion.nombre} - ${suggestion.apellidos}`;
+  };
+
+  const renderSuggestion = (suggestion) => (
+    <div
+      className="sugerencia"
+      onClick={() => seleccionarPersona(suggestion)}
+    >
+      {`${suggestion.nombre} - ${suggestion.apellidos}`}
+    </div>
+  );
+
+  const seleccionarPersona = (persona) => {
+    setPersonaSeleccionada(persona);
+  };
+
+  const onChange = (e, { newValue }) => {
+    setValue(newValue);
+  };
+
+  const inputProps = {
+    placeholder: "Nombre o Apellidos de la Persona",
+    value,
+    onChange,
+  };
+
+  const eventEnter = (e) => {
+    if (e.key === "Enter") {
+      var split = e.target.value.split("-");
+      var persona = {
+        nombre: split[0].trim(),
+        apellidos: split[1].trim(),
+      };
+      seleccionarPersona(persona);
+    }
+  };
+
+  /////////////////////////////////////////////////////////
   const [datos, setDatos] = useState(initialState);
   const {
-    grado_academico,
+    grados_academicos,
     institucion,
-    ubicacion_institucion,
-    inicio_institucion,
-    graduacion,
+    ubicacion,
+    fecha_inicio,
+    fecha_fin,
   } = datos;
 
   const resetForm = () => {
@@ -39,25 +105,26 @@ function AcademicInfo() {
 
   const addDatos = async (data) => {
     try {
+      data.id_candidato = personaSeleccionada.persona_id;
       const response = await axios.post(
-        "http://localhost:5000/curriculum",
+        "http://localhost:5000/preparacion",
         data
       );
 
       if (response.status === 200) {
         console.log(response.data);
-        toast.success("Curriculum guardado exitosamente.");
+        toast.success("Preparacion guardado exitosamente.");
         resetForm(); // Restablecer el formulario después de guardar exitosamente.
       } else {
-        console.error("Error al guardar el curriculum");
+        console.error("Error al guardar el Preparacion");
         toast.error(
-          "Error al guardar el curriculum. Por favor, inténtalo de nuevo."
+          "Error al guardar el Preparacion. Por favor, inténtalo de nuevo."
         );
       }
     } catch (error) {
-      console.error("Error inesperado al guardar el curriculum", error);
+      console.error("Error inesperado al guardar el Preparacion", error);
       toast.error(
-        "Error inesperado al guardar el curriculum. Por favor, inténtalo de nuevo."
+        "Error inesperado al guardar el Preparacion. Por favor, inténtalo de nuevo."
       );
     }
   };
@@ -65,14 +132,23 @@ function AcademicInfo() {
   return (
     <>
       <Form onSubmit={handleSubmit}>
+      <Autosuggest
+          suggestions={personas}
+          onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          onSuggestionSelected={eventEnter}
+        />
         <Row className="mt-3 mb-3">
           <Col>
             <FloatingLabel label="Grado(s) Adadémicos">
               <Form.Control
-                name="grado_academico"
+                name="grados_academicos"
                 type="text"
                 placeholder="Ingresa Grado(s) Adadémicos"
-                value={grado_academico}
+                value={grados_academicos}
                 onChange={handleInputChange}
                 required
               />
@@ -97,10 +173,10 @@ function AcademicInfo() {
           <Col>
             <FloatingLabel label="Ubicación">
               <Form.Control
-                name="ubicacion_institucion"
+                name="ubicacion"
                 type="text"
                 placeholder="Ingresa Ubicación"
-                value={ubicacion_institucion}
+                value={ubicacion}
                 onChange={handleInputChange}
                 required
               />
@@ -112,10 +188,10 @@ function AcademicInfo() {
           <Col>
             <FloatingLabel label="Fecha de Inicio">
               <Form.Control
-                name="inicio_institucion"
+                name="fecha_inicio"
                 type="date"
                 placeholder="Ingresa Fecha de Inicio"
-                value={inicio_institucion}
+                value={fecha_inicio}
                 onChange={handleInputChange}
                 required
               />
@@ -125,16 +201,28 @@ function AcademicInfo() {
           <Col>
             <FloatingLabel label="Año de Graduación">
               <Form.Control
-                name="graduacion"
+                name="fecha_fin"
                 type="date"
                 placeholder="Ingresa Año de Graduación"
-                value={graduacion}
+                value={fecha_fin}
                 onChange={handleInputChange}
                 required
               />
             </FloatingLabel>
           </Col>
         </Row>
+        <Row className="botones">
+          <Col className="btns">
+            <Button className="btn btn-danger">Cancelar</Button>
+          </Col>
+
+          <Col className="btns">
+            <Button type="submit" className="btn btn-primary">
+              Subir
+            </Button>
+          </Col>
+        </Row>
+        <ToastContainer />
       </Form>
     </>
   );

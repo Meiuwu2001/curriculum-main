@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import EliminarCV from "./components/EliminarCV";
 import ModificarCV from "./components/ModificarCV";
 import ListaCV from "./components/ListaCV";
+import "./App.css";
 
 const App = () => {
   return (
