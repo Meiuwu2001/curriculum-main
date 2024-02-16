@@ -106,7 +106,7 @@ function ProfessionalExperience() {
   };
   const addDatos = async (data) => {
     try {
-      data.id_candidato = personaSeleccionada.persona_id;
+      data.id_persona = personaSeleccionada.persona_id;
       const response = await axios.post(
         "http://localhost:5000/experiencia",
         data

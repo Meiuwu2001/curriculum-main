@@ -5,7 +5,7 @@ import { Grid, h } from "gridjs";
 import "gridjs/dist/theme/mermaid.css";
 import { Modal, Button, Alert } from "react-bootstrap";
 
-function ListaCV() {
+function ListaExperiencia() {
   const wrapperRef = useRef(null);
   const navigate = useNavigate();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -42,9 +42,11 @@ function ListaCV() {
         "ID",
         "Nombre",
         "Apellidos",
-        "Idioma",
-        "Nivel",
-
+        "Profesión",
+        "Empresa donde trabajo",
+        "Funciones que ejecuto",
+        "Fecha inicio",
+        "Fecha Fin",
         {
           name: "Eliminar",
           formatter: (cell, row) => {
@@ -58,25 +60,6 @@ function ListaCV() {
                   onClick: () => handleShowConfirmModal(row.cells[0].data),
                 },
                 "Eliminar"
-              )
-            );
-          },
-        },
-        {
-          name: "Ver Certificado",
-          formatter: (cell, row) => {
-            const certificadoUrl = `/certificates/${row.cells[5].data}`; // Ajusta la posición según la estructura de la respuesta
-            return h(
-              "div",
-              {},
-              h(
-                "a",
-                {
-                  href: certificadoUrl,
-                  target: "_blank",
-                  className: "btn btn-primary",
-                },
-                "Ver Certificado"
               )
             );
           },
@@ -111,21 +94,25 @@ function ListaCV() {
         },
       },
       server: {
-        url: "http://localhost:5000/idiomas",
+        url: "http://localhost:5000/experiencia",
         then: (data) =>
           data.map((curriculum) => [
             curriculum.persona_id,
             curriculum.nombre,
             curriculum.apellidos,
-            curriculum.idioma,
-            curriculum.nivel_competencia,
-            curriculum.escaneo_certificado,
+            curriculum.profesion,
+            curriculum.empresa,
+            curriculum.funciones,
+            curriculum.fecha_inicio,
+            curriculum.fecha_fin
+
+
           ]),
       },
     });
 
     gridRef.current.render(wrapperRef.current);
-};
+  };
 
   const updateGridData = () => {
     // Actualiza los datos en el Grid
@@ -134,10 +121,7 @@ function ListaCV() {
         curriculum.persona_id,
         curriculum.nombre,
         curriculum.apellidos,
-        curriculum.idioma,
-        curriculum.nivel_competencia,
-        curriculum.escaneo_certificado,
-
+        curriculum.profesion,
       ]),
     });
     gridRef.current.forceRender();
@@ -154,7 +138,7 @@ function ListaCV() {
 
   return (
     <>
-      <h1 class="title">Lista de Idiomas</h1>
+      <h1 class="title">Lista de Experiencias profesionales</h1>
       <div
         ref={wrapperRef}
         style={{ textAlign: "center", marginTop: "30px" }}
@@ -179,7 +163,7 @@ function ListaCV() {
               handleCloseConfirmModal();
               try {
                 const res = await fetch(
-                  `http://localhost:5000/idioma/${deleteId}`,
+                  `http://localhost:5000/persona/${deleteId}`,
                   {
                     method: "DELETE",
                   }
@@ -210,4 +194,4 @@ function ListaCV() {
   );
 }
 
-export default ListaCV;
+export default ListaExperiencia;

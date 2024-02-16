@@ -29,6 +29,15 @@ function BarraSuperior() {
                 <NavDropdown.Item as={Link} to="idiomas">
                   Lista Idiomas
                 </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="experiencia">
+                  Lista Experiencias profesionales
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="habilidades">
+                  Lista Habilidades
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="preparacion">
+                  Lista Preparacion 
+                </NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>

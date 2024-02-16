@@ -5,6 +5,9 @@ const idiomas = require("./routes/idiomas")
 const experiencia = require("./routes/experienciaProfesional")
 const preparacion = require("./routes/preparacionAcademica")
 const habilidades = require("./routes/habilidades");
+const ping = require("./routes/endPoints");
+const login = require("./routes/endPoints");
+
 //rutas
 const cors = require("cors")
 
@@ -19,7 +22,8 @@ app.use(idiomas)
 app.use(experiencia)
 app.use(preparacion)
 app.use(habilidades)
-
+app.use(ping)
+app.use(login)
 
 
 module.exports = app;

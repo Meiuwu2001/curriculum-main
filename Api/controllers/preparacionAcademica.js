@@ -2,7 +2,7 @@ const connect = require("../connect");
 
 const getAllPreparacion = async (req, res) => {
   const conn = await connect();
-  const [rows] = await conn.query("SELECT * FROM preparacionacademica");
+  const [rows] = await conn.query("SELECT preparacionacademica.*, persona.* FROM preparacionacademica INNER JOIN persona ON preparacionacademica.id_candidato = persona.persona_id");
   console.log(rows);
   res.send(rows);
 };
