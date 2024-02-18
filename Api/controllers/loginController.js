@@ -1,28 +1,31 @@
 const connect = require("../connect");
+const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
-//   console.log(username, password);
-  const sql = "SELECT * FROM usuarios WHERE username = ? AND password = ?";
+  const { username, contrasena } = req.body;
 
   try {
     const conn = await connect();
-    conn.execute(sql, [username, password], (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send(err);
-      }
-      if (result.length > 0) {
-        console.log(result);
-        return res.send(result);
-      } else {
-        console.log("wrong user or password");
-        return res.status(401).send({ message: "wrong user or password" });
-      }
-    });
+    const sql = "SELECT * FROM usuarios WHERE username = ? AND contrasena = ?";
+
+    const result = await conn.query(sql, [username, contrasena]);
+    console.log(result[0]);
+    const data = result[0];
+    if (data.length > 0) {
+      const token =jwt.sign({username}, "Stack",{
+        expiresIn: '3m'
+      })
+      console.log("Usuario autenticado:", username);
+      return res.send({ token });
+    } else {
+      console.log("Usuario o contraseña incorrectos");
+      return res
+        .status(401)
+        .send({ message: "Usuario o contraseña incorrectos" });
+    }
   } catch (err) {
-    console.error(err);
-    return res.status(500).send(err);
+    console.error("Error al autenticar:", err);
+    return res.status(500).send({ message: "Error al autenticar" });
   }
 };
 
